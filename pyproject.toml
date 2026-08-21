@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dash-precompute"
+version = "0.1.0"
+description = "A Dash reference for precomputing bounded analytical results outside callbacks."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "dash>=4.0,<5",
+    "gunicorn>=23,<24",
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "plotly>=6.0,<7",
+    "pyarrow>=15",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.9",
+]
+[project.scripts]
+dash-precompute-build = "dash_precompute.precompute:main"
+dash-precompute-serve = "dash_precompute.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+dash_precompute = ["assets/*.css", "assets/*.js"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.ruff.lint.isort]
+no-lines-before = ["standard-library", "third-party", "first-party", "local-folder"]
